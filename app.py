@@ -1,10 +1,12 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 import speech_recognition as sr
 import pyttsx3
 import multiprocessing
 import webbrowser
 
 app = Flask(__name__)
+CORS(app)
 
 pages = {
     "google": "https://www.google.com",
@@ -55,11 +57,10 @@ def voice_command():
     key = SpecificWordFromString(command)
     if key == None:
         #speak("We are sorry, the page you\'re requesting is not in our database",)
-       
         process = multiprocessing.Process(target=speak, args=("We're sorry, the page you're requesting is not in our database",))
         process.start()
         process.join()
-       
+        return jsonify({"status": "error", "msg":"We're sorry, the page you're requesting is not in our database","command":command})
     else:
         #speak('Please have some patience, we are redirecting you, thank you')
         #webbrowser.open(pages[key])
@@ -67,8 +68,8 @@ def voice_command():
         process.start()
         process.join()
         webbrowser.open(pages[key])
-       
-    return jsonify({"status": "success", "command": command})
+        return jsonify({"status": "success", "msg":"Please have some patience, we are redirecting you, thank you","command":command})
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
