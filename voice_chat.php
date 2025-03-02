@@ -69,12 +69,12 @@
                     success: function(response){
                         $("#clickOnMikeButton").removeClass("active")
                         $("#clickOnMikeButton").attr('isPlay',"0")
-                        console.log('Server Response:', response);
+                        console.log('Server Response:', response.msg);
                     },
                     error: function(xhr, status, error){
                         $("#clickOnMikeButton").removeClass("active")
                         $("#clickOnMikeButton").attr('isPlay',"0")
-                        console.error('AJAX Error!!!:', error);
+                       console.error('Error in API Call');
                    }
                });
             }
