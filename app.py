@@ -43,13 +43,15 @@ def listen_command():
              #print(f"User said: {command}")
             
         except sr.UnknownValueError:
-            process = multiprocessing.Process(target=speak, args=("Sorry, I could not understand the audio.",))
+            process = multiprocessing.Process(target=speak, args=("Sorry, I could not understand.",))
             process.start()
             process.join()
+            return "Sorry, I could not understand"
         except sr.RequestError:
             process = multiprocessing.Process(target=speak, args=("Could not request results, please check your internet connection.",))
             process.start()
             process.join()
+            return "Could not request results, please check your internet connection"
 
 @app.route('/voice-command', methods=['GET'])
 def voice_command():
